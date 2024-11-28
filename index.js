@@ -10,6 +10,15 @@ const connectDB = require("./connectMongo");
 
 connectDB();
 
+// Contact Schema and Model
+const contactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
+  });
+  
+  const Contact = mongoose.model("Contact", contactSchema);
+
 //CREATE
 app.post("/contacts", async (req, res) => {
     try {
