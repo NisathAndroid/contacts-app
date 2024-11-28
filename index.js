@@ -1,5 +1,5 @@
 const express = require("express");
-
+const mongoose = require('mongoose')
 const app = express();
 
 require("dotenv").config();
@@ -9,7 +9,6 @@ app.use(express.json());
 const connectDB = require("./connectMongo");
 
 connectDB();
-
 // Contact Schema and Model
 const contactSchema = new mongoose.Schema({
     name: { type: String, required: true },
