@@ -10,6 +10,50 @@ const connectDB = require("./connectMongo");
 
 connectDB();
 
+//CREATE
+app.post("/contacts", async (req, res) => {
+    try {
+      const contact = new Contact(req.body);
+      const savedContact = await contact.save();
+      res.status(201).json(savedContact);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+
+  // READ
+app.get("/contacts", async (req, res) => {
+    try {
+      const contacts = await Contact.find();
+      res.json(contacts);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // UPDATE
+app.put("/contacts/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedContact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+      res.json(updatedContact);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+  
+  // DELETE
+  app.delete("/contacts/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Contact.findByIdAndDelete(id);
+      res.json({ message: "Contact deleted" });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
